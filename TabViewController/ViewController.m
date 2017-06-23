@@ -17,6 +17,8 @@
 @property (nonatomic,strong) UIScrollView  *contentScrollView;
 
 @property (nonatomic,strong) CustomTabView *customTabView;
+
+@property (nonatomic,assign) float lastContentOffset;
 @end
 
 @implementation ViewController
@@ -56,7 +58,7 @@
 - (void) addScrollView
 {
     {
-        self.contentScrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, 375, [UIScreen mainScreen].bounds.size.height-40)];
+        self.contentScrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-40)];
         self.contentScrollView.showsHorizontalScrollIndicator = NO;
         self.contentScrollView.pagingEnabled = YES;
         self.contentScrollView.bounces = NO;
@@ -67,6 +69,10 @@
          self.contentScrollView.contentSize=CGSizeMake([UIScreen mainScreen].bounds.size.width * self.childViewControllers.count, 60);
         [self.view addSubview:self.contentScrollView];
     }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.lastContentOffset = scrollView.contentOffset.x;
 }
 
 /**
@@ -83,6 +89,28 @@
         [self.customTabView performSelector:@selector(btnClick:) withObject:clickedBtn];
     }
 }
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (![scrollView isKindOfClass:[UITableView class]]) {
+        
+        if (self.lastContentOffset < scrollView.contentOffset.x) {
+            //            JXLog(@"向zuo滚动");
+            CGFloat max=((int)scrollView.contentOffset.x%375)*0.34;
+            NSLog(@"%.2f",max);
+            [self.customTabView rollLineViewAnimation:CGPointMake(max, 38)];
+        }else{
+            CGFloat max=-((int)(self.lastContentOffset-scrollView.contentOffset.x)%375)*0.34;
+            NSLog(@"%.2f",max);
+            [self.customTabView rollLineViewAnimation:CGPointMake(max, 38)];
+        }
+       
+    }
+}
+
+
+
 
 #pragma mark --
 - (void)didClickBtnIndex:(NSInteger)index
@@ -106,7 +134,7 @@
 
 - (NSArray *) titlesForCustomTabView:(CustomTabView *)customTabView
 {
-    return [NSArray arrayWithObjects:@"啊啊啊",@"是的发",@"是的发送到",nil];
+    return [NSArray arrayWithObjects:@"待支付",@"待发货",@"待收货",nil];
 }
 
 

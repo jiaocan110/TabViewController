@@ -26,6 +26,8 @@ typedef void(^ToolViewBlcok)(NSInteger index);
 @property (nonatomic,assign) BOOL starAnimation;
 
 
+@property (nonatomic,assign) NSInteger roolingDirection;
+
 @property (nonatomic,strong) UIColor *tilteColor;
 @property (nonatomic,weak)id<TabViewDeleagate> delegate;
 @property (nonatomic,weak)id<TabViewDataSource> dataSource;
@@ -36,6 +38,8 @@ typedef void(^ToolViewBlcok)(NSInteger index);
 - (void) setUpChildTitleViews;
 - (void) reloadData;
 - (void)btnClick:(UIButton *)sender;
+
+- (void) rollLineViewAnimation:(CGPoint) currentPoint;
 @end
 
 #pragma mark TabViewDataSource

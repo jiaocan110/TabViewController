@@ -46,13 +46,6 @@
     return 2;
 }
 
-
-
-- (void) reloadData
-{
-    
-}
-
 - (void)layoutSubviews
 {
     if (self.starAnimation) {
@@ -78,6 +71,17 @@
     }
 }
 
+- (void) rollLineViewAnimation:(CGPoint) currentPoint
+{
+    [UIView animateWithDuration:0.3 animations:^{
+        CGPoint center = CGPointMake(0, 0);
+        center.y = self.lineView.center.y;
+        NSLog(@"%.2f",currentPoint.x);
+        center.x = self.tempBtn.center.x +currentPoint.x;
+        self.lineView.center = center;
+    }];
+}
+
 - (void) setUpChildTitleViews
 {
     [self setUpLineView];
@@ -95,7 +99,6 @@
 {
     self.titles=[self.dataSource titlesForCustomTabView:self];
     CGFloat btnW = [UIScreen mainScreen].bounds.size.width / self.titles.count;
-    
     for (NSInteger i = 0; i< self.titles.count; i++)
     {
         {
