@@ -97,11 +97,11 @@
         
         if (self.lastContentOffset < scrollView.contentOffset.x) {
             //            JXLog(@"向zuo滚动");
-            CGFloat max=((int)scrollView.contentOffset.x%375)*0.34;
+            CGFloat max=((int)scrollView.contentOffset.x%(int)[UIScreen mainScreen].bounds.size.width)*0.34;
             NSLog(@"%.2f",max);
             [self.customTabView rollLineViewAnimation:CGPointMake(max, 38)];
         }else{
-            CGFloat max=-((int)(self.lastContentOffset-scrollView.contentOffset.x)%375)*0.34;
+            CGFloat max=-((int)(self.lastContentOffset-scrollView.contentOffset.x)%(int)[UIScreen mainScreen].bounds.size.width)*0.34;
             NSLog(@"%.2f",max);
             [self.customTabView rollLineViewAnimation:CGPointMake(max, 38)];
         }
